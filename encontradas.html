@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>pawBack - Mascotas Encontradas</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>🐾 pawBack</h1>
+        <p>Mascotas encontradas</p>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="perdidas.html">Mascotas perdidas</a>
+            <a href="encontradas.html">Mascotas encontradas</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section>
+    <h2>🐱 Mascotas encontradas</h2>
+
+    <p>Las mascotas encontradas que fueron registradas aparecerán aquí.</p>
+
+    <div id="listaMascotas"></div>
+</section>
+
+<script>
+    const lista = document.getElementById("listaMascotas");
+    const mascotas = JSON.parse(localStorage.getItem("mascotas")) || [];
+
+    const encontradas = mascotas.filter(mascota => mascota.estado === "Encontrada");
+
+    if (encontradas.length === 0) {
+        lista.innerHTML = "<p>🐾 No hay mascotas encontradas registradas todavía.</p>";
+    } else {
+        encontradas.forEach(mascota => {
+            lista.innerHTML += `
+                <div class="mascota">
+                    ${mascota.foto ? `<img src="${mascota.foto}" alt="Foto de ${mascota.nombre}" style="width:250px; border-radius:15px;">` : ""}
+                    <h3>🐾 ${mascota.nombre}</h3>
+                    <p><strong>Tipo:</strong> ${mascota.tipo}</p>
+                    <p><strong>🐶 Raza:</strong> ${mascota.raza}</p>
+                   <p><strong>📞 Contacto:</strong> ${mascota.contacto || "No registrado"}</p>
+<p><strong>📍 Departamento:</strong> ${mascota.departamento || "No registrado"}</p>
+<p><strong>📍 Zona:</strong> ${mascota.lugar || "No registrado"}</p>
+                    <p><strong>📝 Descripción:</strong> ${mascota.descripcion}</p>
+                    <button>🔎 Ver información</button>
+                </div>
+            `;
+        });
+    }
+</script>
+
+    </main>
+
+    <footer>
+        <p>pawBack - Proyecto BTH</p>
+    </footer>
+
+</body>
+
+</html>

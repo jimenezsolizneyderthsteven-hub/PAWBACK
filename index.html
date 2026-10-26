@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>pawBack - Mascotas Perdidas</title>
+   <link rel="stylesheet" href="estilo.css"> 
+</head>
+
+<body>
+    <body>
+<div class="huellas-caminando">
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+</div>
+
+    <header>
+
+    <header>
+        <h1>🐾 𝓹𝓪𝔀𝓑𝓪𝓬𝓴</h1>
+
+        <p>Ayudamos a encontrar a las mascotas perdidas</p>
+
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="perdidas.html">Mascotas perdidas</a>
+            <a href="encontradas.html">Mascotas encontradas</a>
+            <a href="#publicar">Publicar mascota</a>
+        </nav>
+    </header>
+
+    <main>
+<section id="inicio">
+    <h2>🐾 Bienvenido a pawBack</h2>
+
+    <h3>¡Ayúdanos a reunir mascotas con sus familias!</h3>
+
+    <p>
+        pawBack es una plataforma creada para ayudar a encontrar
+        mascotas perdidas y reportar mascotas encontradas.
+    </p>
+
+    <p>
+        Aquí podrás publicar información, fotografías y datos importantes
+        para facilitar el reencuentro entre las mascotas y sus familias.
+    </p>
+
+    <p>
+        <p>
+    🐶 🐱 Juntos podemos ayudar a que ninguna mascota se quede sin hogar.
+</p>
+
+<a href="perdidas.html" class="boton">🐶 Ver mascotas perdidas</a>
+
+</section>
+
+<section id="perdidas">
+    <h2>🐶 Mascotas perdidas</h2>
+
+    <p>
+        En esta sección podrás encontrar información sobre mascotas
+        que se encuentran perdidas.
+    </p>
+
+    <p>
+        Si has perdido a tu mascota, puedes publicar sus datos,
+        fotografía y lugar donde fue vista por última vez.
+    </p>
+</section>
+       
+        <section id="encontradas">
+    <h2>🐱 Mascotas encontradas</h2>
+
+    <p>
+        Aquí podrás encontrar información sobre mascotas
+        que fueron encontradas en diferentes lugares.
+    </p>
+
+    <p>
+        Si encontraste una mascota, puedes compartir sus datos,
+        fotografía y lugar donde fue encontrada para ayudar
+        a localizar a su familia.
+    </p>
+
+    <p>
+        💜 Cada publicación puede ayudar a una mascota a volver a casa.
+    </p>
+</section>
+    </main>
+    </section>
+
+<section id="publicar">
+    <h2>📝 Publicar una mascota</h2>
+
+    <p>
+        ¿Perdiste o encontraste una mascota?
+        Completa el siguiente formulario para publicar su información.
+    </p>
+
+    <form>
+        <label>Nombre de la mascota:</label><br>
+        <input type="text" placeholder="Ejemplo: Luna"><br><br>
+
+        <label>Tipo de mascota:</label><br>
+        <input type="text" placeholder="Perro, gato, etc."><br><br>
+        <label>Raza:</label><br>
+<input type="text" placeholder="Ejemplo: Labrador"><br><br>
+
+<label>Número de contacto:</label><br>
+<input type="tel" placeholder="Ejemplo: 70000000"><br><br>
+<label>Fotografía de la mascota:</label><br>
+<input type="file" id="fotoMascota" accept="image/*"><br><br>
+
+<img id="vistaPrevia" src="" alt="Vista previa de la mascota" style="display: none; width: 250px; border-radius: 15px;">
+<br><br>
+        <label>¿Perdida o encontrada?</label><br>
+        <select id="estado" name="estado" required>
+    <option value="Perdida">Perdida</option>
+    <option value="Encontrada">Encontrada</option>
+</select><br><br>
+        <label>Departamento de Bolivia:</label><br>
+        <select id="departamento" name="departamento" required>
+            <option value="">Selecciona un departamento</option>
+            <option value="La Paz">La Paz</option>
+            <option value="Santa Cruz">Santa Cruz</option>
+            <option value="Cochabamba">Cochabamba</option>
+            <option value="Oruro">Oruro</option>
+            <option value="Potosí">Potosí</option>
+            <option value="Chuquisaca">Chuquisaca</option>
+            <option value="Tarija">Tarija</option>
+            <option value="Beni">Beni</option>
+            <option value="Pando">Pando</option>
+        </select><br><br>
+
+        <label>Último lugar donde fue vista:</label><br>
+        <input type="text" placeholder="Zona o lugar"><br><br>
+
+        <label>Descripción:</label><br>
+        <textarea placeholder="Describe a la mascota"></textarea><br><br>
+         <form>
+             <button type="submit">Publicar mascota 🐾</button>
+         </form>
+    
+    
+</section>
+
+</main>
+
+<footer>
+
+    <footer>
+        <p>pawBack - Proyecto BTH</p>
+    </footer>
+<script src="script.js"></script>
+</body>
+
+</html>

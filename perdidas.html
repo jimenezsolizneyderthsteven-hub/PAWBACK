@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>pawBack - Mascotas Perdidas</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>🐾 pawBack</h1>
+        <p>Mascotas perdidas</p>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="perdidas.html">Mascotas perdidas</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section>
+    <h2>🐶 Mascotas perdidas</h2>
+
+    <p>
+        Aquí aparecen las mascotas que fueron registradas como perdidas.
+    </p>
+
+    <div id="listaMascotas"></div>
+</section>
+
+<script>
+const lista = document.getElementById("listaMascotas");
+const mascotas = JSON.parse(localStorage.getItem("mascotas")) || [];
+const perdidas = mascotas.filter(m => m.estado === "Perdida");
+
+if (perdidas.length === 0) {
+    lista.innerHTML = "<p>🐾 No hay mascotas perdidas registradas todavía.</p>";
+}
+
+perdidas.forEach(mascota => {
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "mascota";
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = "🐾 " + (mascota.nombre || "Mascota");
+    tarjeta.appendChild(titulo);
+
+    if (mascota.foto) {
+        const foto = document.createElement("img");
+        foto.src = mascota.foto;
+        foto.alt = "Foto de " + (mascota.nombre || "la mascota");
+        foto.style.cssText =
+            "width:250px;max-width:100%;border-radius:15px;display:block;margin:12px 0;";
+        tarjeta.appendChild(foto);
+    }
+
+    const datos = [
+    ["Estado", mascota.estado],
+    ["Departamento", mascota.departamento],
+    ["Tipo", mascota.tipo],
+    ["Raza", mascota.raza],
+    ["Zona", mascota.lugar],
+    ["Descripción", mascota.descripcion],
+    ["Contacto", mascota.contacto]
+];
+
+    datos.forEach(([etiqueta, valor]) => {
+        const p = document.createElement("p");
+        const fuerte = document.createElement("strong");
+        fuerte.textContent = etiqueta + ": ";
+        p.appendChild(fuerte);
+        p.appendChild(document.createTextNode(valor || "No registrado"));
+        tarjeta.appendChild(p);
+    });
+
+    // Botón de WhatsApp
+    const numero = String(mascota.contacto || "").replace(/\D/g, "");
+    let numeroWhatsApp = numero;
+
+    if (numeroWhatsApp.length === 8) {
+        numeroWhatsApp = "591" + numeroWhatsApp;
+    }
+
+    if (numeroWhatsApp.startsWith("591") &&
+        numeroWhatsApp.length === 11) {
+        const whatsapp = document.createElement("a");
+        whatsapp.href = "https://wa.me/" + numeroWhatsApp;
+        whatsapp.target = "_blank";
+        whatsapp.rel = "noopener noreferrer";
+        whatsapp.textContent = "💬 Contactar por WhatsApp";
+        whatsapp.style.cssText =
+            "display:inline-block;background:#25D366;color:white;padding:12px 16px;border-radius:25px;text-decoration:none;font-weight:bold;margin:5px;";
+        tarjeta.appendChild(whatsapp);
+    }
+
+    // Botón para crear la ficha imprimible
+    const botonPDF = document.createElement("button");
+    botonPDF.type = "button";
+    botonPDF.textContent = "📄 Crear ficha para imprimir";
+    botonPDF.style.cssText =
+        "display:inline-block;background:#7045B5;color:white;padding:12px 16px;border:0;border-radius:25px;cursor:pointer;font-weight:bold;margin:5px;";
+
+    botonPDF.addEventListener("click", function () {
+        const ventana = window.open("", "_blank");
+
+        if (!ventana) {
+            alert("Permite las ventanas emergentes para crear la ficha.");
+            return;
+        }
+
+        const escapar = texto => String(texto || "No registrado")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+
+        const fotoHTML = mascota.foto
+            ? '<img class="foto" src="' +
+              escapar(mascota.foto) +
+              '" alt="Foto de la mascota">'
+            : '<div class="sin-foto">Foto no disponible</div>';
+
+        const contenido = `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Ficha pawBack - ${escapar(mascota.nombre)}</title>
+          <style>
+            @page { size: A4; margin: 15mm; }
+            * { box-sizing: border-box; }
+            body {
+              font-family: Arial, sans-serif;
+              color: #302345;
+              margin: 0;
+              background: white;
+            }
+            .afiche {
+              border: 3px solid #8c63c7;
+              border-radius: 18px;
+              padding: 24px;
+              text-align: center;
+            }
+            .marca {
+              color: #7045B5;
+              font-size: 18px;
+              font-weight: bold;
+              letter-spacing: 2px;
+            }
+            h1 {
+              color: #57358D;
+              font-size: 27px;
+              margin: 12px 0;
+            }
+            .estado {
+              background: #eee5ff;
+              color: #57358D;
+              padding: 10px;
+              border-radius: 20px;
+              font-weight: bold;
+              margin-bottom: 18px;
+            }
+            .foto {
+              display: block;
+              width: auto;
+              max-width: 100%;
+              height: auto;
+              max-height: 300px;
+              object-fit: contain;
+              margin: 0 auto 18px;
+              border-radius: 12px;
+            }
+            .sin-foto {
+              padding: 40px 10px;
+              background: #f5f0ff;
+              margin-bottom: 18px;
+            }
+            .datos {
+              text-align: left;
+              line-height: 1.6;
+              overflow-wrap: anywhere;
+            }
+            .datos p {
+              border-bottom: 1px solid #e6dcf5;
+              padding-bottom: 7px;
+            }
+            .contacto {
+              background: #7045B5;
+              color: white;
+              border-radius: 12px;
+              padding: 15px;
+              font-size: 18px;
+              overflow-wrap: anywhere;
+            }
+            .pie {
+              color: #7045B5;
+              margin-top: 20px;
+              font-size: 13px;
+            }
+            .imprimir {
+              background: #7045B5;
+              color: white;
+              padding: 12px 20px;
+              border: 0;
+              border-radius: 20px;
+              margin: 15px;
+              cursor: pointer;
+            }
+            @media print {
+              .imprimir { display: none; }
+              .afiche { break-inside: avoid; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="afiche">
+            <div class="marca">🐾 pawBack</div>
+            <h1>${escapar(mascota.nombre || "Mascota")}</h1>
+            <div class="estado">
+              ${escapar(mascota.estado || "Estado no registrado").toUpperCase()}
+            </div>
+            ${fotoHTML}
+            <div class="datos">
+              <p><strong>Tipo:</strong> ${escapar(mascota.tipo)}</p>
+              <p><strong>Raza:</strong> ${escapar(mascota.raza)}</p>
+              <p><strong>Zona:</strong> ${escapar(mascota.lugar)}</p>
+              <p><strong>Descripción:</strong> ${escapar(mascota.descripcion)}</p>
+            </div>
+            <div class="contacto">
+              <strong>📞 CONTACTO</strong><br>
+              ${escapar(mascota.contacto)}
+            </div>
+            <div class="pie">
+              Ayúdanos a compartir esta información.<br>
+              pawBack — Proyecto BTH
+            </div>
+          </div>
+          <div style="text-align:center">
+            <button class="imprimir" onclick="window.print()">
+              🖨️ Imprimir / Guardar como PDF
+            </button>
+          </div>
+          <script>
+            window.onload = function() {
+              const imagen = document.querySelector(".foto");
+              if (imagen && !imagen.complete) {
+                imagen.onload = function() {};
+              }
+            };
+          <\/script>
+        </body>
+        </html>`;
+
+        ventana.document.open();
+        ventana.document.write(contenido);
+        ventana.document.close();
+    });
+
+    tarjeta.appendChild(botonPDF);
+
+// Botón para eliminar una mascota
+const botonEliminar = document.createElement("button");
+botonEliminar.type = "button";
+botonEliminar.textContent = "🗑️ Eliminar mascota";
+botonEliminar.style.cssText =
+    "background:#dc3545;color:white;padding:12px 16px;border:0;border-radius:25px;cursor:pointer;font-weight:bold;margin:5px;";
+
+botonEliminar.addEventListener("click", function () {
+    if (!confirm("¿Deseas eliminar a " + (mascota.nombre || "esta mascota") + "?")) {
+        return;
+    }
+
+    const todasLasMascotas =
+        JSON.parse(localStorage.getItem("mascotas")) || [];
+
+    const indice = todasLasMascotas.indexOf(mascota);
+
+    if (indice !== -1) {
+        todasLasMascotas.splice(indice, 1);
+        localStorage.setItem("mascotas", JSON.stringify(todasLasMascotas));
+        alert("Mascota eliminada correctamente.");
+        location.reload();
+    }
+});
+
+tarjeta.appendChild(botonEliminar);
+lista.appendChild(tarjeta);
+});
+</script>
+    
+
+    
+
+    </main>
+
+    <footer>
+        <p>pawBack - Proyecto BTH</p>
+    </footer>
+
+</body>
+
+</html>
